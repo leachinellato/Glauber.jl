@@ -3,6 +3,7 @@ using MKL
 using Plots
 using Random
 using Statistics
+using LaTeXStrings
 
 function map_bool_to_integer(a::Bool)
     if a == false
@@ -137,26 +138,40 @@ end
    
 begin
 
-    N = 500
+    Ns = (5,50,500)
     J = 1.0
     Nsteps = 1000
 
     #calculate for severals temperatures
     Ts = collect(range(0.1,4.0, step=0.1))
-    meanE = zeros(length(Ts))
-    meanM = zeros(length(Ts))
+    meanE = zeros(length(Ts),3)
+    meanM = zeros(length(Ts),3)
 
-    cc = 0
-    for T in Ts
-        cc += 1
-        σ0 = generate_RandomConf(N)
-        En, Mag = GlauberAlg(J, T, σ0; Nsteps)
-        meanE[cc] = mean(En)
-        meanM[cc] = mean(Mag)
+    c = 0
+    for N in Ns
+        c +=1
+        cc = 0
+        for T in Ts
+            cc += 1
+            σ0 = generate_RandomConf(N)
+            En, Mag = GlauberAlg(J, T, σ0; Nsteps)
+            meanE[cc,c] = mean(En)
+            meanM[cc,c] = mean(Mag)
+        end
     end
 
-    plot(Ts, meanE / N)
-    plot(Ts, abs.(meanM)  / N)
+    figE = plot(Ts, meanE[:,1] ./ 5, xlabel =L"T[J]", ylabel =L"E[J]/N", label =L"N = 5", dpi=300)
+    plot!(Ts, meanE[:,2] ./ 50, xlabel =L"T[J]", ylabel =L"E[J]/N", label =L"N = 50")
+    plot!(Ts, meanE[:,3] ./ 500, xlabel =L"T[J]", ylabel =L"E[J]/N", label =L"N = 500")
+    savefig(figE, "energy.png")
+
+    figM = plot(Ts, meanM[:,1] ./ 5, xlabel =L"T[J]", ylabel =L"M[J]/N", label =L"N = 5", dpi=300)
+    plot!(Ts, meanM[:,2] ./ 50, xlabel =L"T[J]", ylabel =L"M[J]/N", label =L"N = 50")
+    plot!(Ts, meanM[:,3] ./ 500, xlabel =L"T[J]", ylabel =L"M[J]/N", label =L"N = 500")
+    savefig(figM, "magnetization.png")
     
 end
+
+
+
 
