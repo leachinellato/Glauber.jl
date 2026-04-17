@@ -3,6 +3,7 @@
 A small [Julia](https://julialang.org/) project that simulates Glauber
 single-spin-flip dynamics on a 1D Ising chain with periodic boundary
 conditions, optionally in the presence of a uniform external field `h`.
+Used as a test for see how Claude code is working.
 
 Authored by Leandro M. Chinellato <chinellato.leandro@gmail.com>.
 
