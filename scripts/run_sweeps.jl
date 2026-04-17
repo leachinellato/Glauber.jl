@@ -1,5 +1,6 @@
 using Pkg
 Pkg.activate(joinpath(@__DIR__, ".."))
+#Pkg.instantiate()
 
 include(joinpath(@__DIR__, "..", "src", "Glauber.jl"))
 using .Glauber
