@@ -1,2 +1,7 @@
 /.vscode
 /HW5.pdf
+
+# Julia
+*.cov
+/deps/build.log
+/docs/build/
